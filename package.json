@@ -2,7 +2,7 @@
   "name": "blog-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://reactapp.github.io",
+  "homepage": "https://geomaximus.github.io/blog-app",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
@@ -11,9 +11,10 @@
     "@types/node": "^16.11.35",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.4",
-    "gh-pages": "^4.0.0",
     "react": "^18.1.0",
+    "react-bootstrap": "^2.4.0",
     "react-dom": "^18.1.0",
+    "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "save-dev": "^0.0.1-security",
     "typescript": "^4.6.4",
@@ -44,5 +45,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^4.0.0"
   }
 }
