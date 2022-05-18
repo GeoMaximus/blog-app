@@ -173,7 +173,7 @@ class Home extends Component<Props, State> {
     ));
 
     return (
-      <div>
+      <main>
         <button onClick={this.openModal}>Add article</button>
         {articleList}
         <Modal
@@ -185,7 +185,7 @@ class Home extends Component<Props, State> {
           addArticle={this.addArticle}
           updateArticle={this.updateArticle}
         />
-      </div>
+      </main>
     );
   }
 }
