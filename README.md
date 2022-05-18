@@ -1,4 +1,4 @@
-#Travel Blog ReactJS
+# Travel Blog ReactJS
 Travel blog mock-up developed using HTML, CSS, ReactJS, typescript and GitHub Pages
 The data displayed is fetched from a separate json-server which you can find at the following link: https://github.com/GeoMaximus/json-data
 In order to acces the website, firstly run the json server using the command: json-server --watch <fileName?.json (preferably place it in a separate folder if you run the project locally).
