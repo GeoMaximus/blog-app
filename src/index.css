@@ -192,6 +192,8 @@ a {
 
 .show-modal .modal_overlay {
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal_overlay {

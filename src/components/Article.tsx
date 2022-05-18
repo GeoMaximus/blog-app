@@ -1,12 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "../index.css";
 import { ArticleModel } from "../pages/Home";
+import "../index.css";
+
 
 type Props = {
   id: number;
   title: string;
   tag: string;
   author: string;
+  date: string;
   imgUrl: string;
   content: string;
   editArticle: (article: ArticleModel) => void;
@@ -14,19 +18,27 @@ type Props = {
 }
 
 export default function Article({
-  title, tag, author, imgUrl, content, id, editArticle, deleteArticle
+  id, title, tag, author, date, imgUrl, content, editArticle, deleteArticle
 }: Props) {
   return (
-    <li>
-      {title}
+    <article className="article-container">
+      <h1>{title}</h1>
+      <ul className="info">
+        <li className="info_item">{tag}</li>
+        <li className="info_item">Added by </li>
+        <li className="info_item">
+          <span className="info_mark">{author}</span>
+        </li>
+        <li className="info_item">{date}</li>
+      </ul>
+      <div className="action_buttons">
+        <button onClick={() => editArticle({ id, title, tag, author, date, imgUrl, content })} type="button" className="action_btn">EDIT</button>
+        <button onClick={() => deleteArticle(id)} type="button" className="action_btn">DELETE</button>
+      </div>
       <img src={imgUrl} alt={title} />
-      <button onClick={() => editArticle({ tag, author, content, title, imgUrl, id })} type="button">
-        Edit
-      </button>
-      <button onClick={() => deleteArticle(id)} type="button">
-        Delete
-      </button>
-      <Link to={`/details/${id}`}>See more...</Link>
-    </li>
+      <div className="content">
+        <p className="article-container">{content} <Link to={`/details/${id}`}>See more...</Link></p>
+      </div>
+    </article>
   )
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Article from '../components/Article';
 import Modal from '../components/Modal';
+import "../index.css";
 
 type Props = {}
 
@@ -15,6 +16,7 @@ export type ArticleModel = {
   title: string;
   tag: string;
   author: string;
+  date: string;
   imgUrl: string;
   content: string;
 };
@@ -30,6 +32,7 @@ class Home extends Component<Props, State> {
         title: "",
         tag: "",
         author: "",
+        date: "",
         imgUrl: "",
         content: "",
       },
@@ -53,7 +56,6 @@ class Home extends Component<Props, State> {
   async fetchArticles() {
     const res = await fetch(`http://localhost:3000/articles`);
     const json = await res.json();
-    console.log(json);
     this.setState({ articles: json });
   }
 
@@ -61,12 +63,13 @@ class Home extends Component<Props, State> {
     this.setState({
       isModalOpen: false,
       selectedArticle: {
-        author: "",
-        tag: "",
-        content: "",
-        title: "",
-        imgUrl: "",
         id: 0,
+        title: "",
+        tag: "",
+        author: "",
+        date: "",
+        imgUrl: "",
+        content: "",
       },
     });
   }
@@ -95,18 +98,18 @@ class Home extends Component<Props, State> {
       },
       body: JSON.stringify(body),
     });
-    const json = await response.json();
-    console.log(json);
+    await response.json();
     // reset form
     this.setState({
       isModalOpen: false,
       selectedArticle: {
-        author: "",
-        tag: "",
-        content: "",
-        title: "",
-        imgUrl: "",
         id: 0,
+        title: "",
+        tag: "",
+        author: "",
+        date: "",
+        imgUrl: "",
+        content: "",
       },
     });
 
@@ -123,18 +126,19 @@ class Home extends Component<Props, State> {
       },
       body: JSON.stringify(body),
     });
-    const json = await response.json();
+    await response.json();
 
     // reset form and close modal
     this.setState({
       isModalOpen: false,
       selectedArticle: {
-        author: "",
-        tag: "",
-        content: "",
-        title: "",
-        imgUrl: "",
         id: 0,
+        title: "",
+        tag: "",
+        author: "",
+        date: "",
+        imgUrl: "",
+        content: "",
       },
     });
 
@@ -148,7 +152,7 @@ class Home extends Component<Props, State> {
         "Content-Type": "application/json",
       },
     });
-    const json = await response.json();
+    await response.json();
 
     this.fetchArticles();
   }
@@ -163,18 +167,23 @@ class Home extends Component<Props, State> {
     const articleList = articles.map((article: ArticleModel) => (
       <Article
         key={article.id}
+        title={article.title}
         author={article.author}
         content={article.content}
+        date={article.date}
         tag={article.tag}
         imgUrl={article.imgUrl}
         id={article.id}
         editArticle={this.editArticle}
-        deleteArticle={this.deleteArticle} title={''}      />
+        deleteArticle={this.deleteArticle} />
     ));
 
     return (
-      <main>
-        <button onClick={this.openModal}>Add article</button>
+      <div>
+      <div className='add'>
+        <button className="btn" onClick={this.openModal}>Add article</button>
+        </div>
+        <div className='article-container'>
         {articleList}
         <Modal
           isModalOpen={isModalOpen}
@@ -185,7 +194,9 @@ class Home extends Component<Props, State> {
           addArticle={this.addArticle}
           updateArticle={this.updateArticle}
         />
-      </main>
+        </div>
+        </div>
+
     );
   }
 }
