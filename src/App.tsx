@@ -16,15 +16,12 @@ function App() {
     <div className="container">
       <Menu />
       <Router>
-        <div>
           <Routes>
             <Route path="/*" element={<Home />} />
             <Route path="/details/:articleId" element={<Details />} />
             <Route path="*" element={<Notfound />} />
           </Routes>
-        </div>
       </Router>
-      <Footer />
     </div>
   );
 }

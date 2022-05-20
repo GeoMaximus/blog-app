@@ -1,14 +1,18 @@
 import React, { ChangeEvent } from "react";
 import { ArticleModel } from "../pages/Home";
-
 import "../index.css";
+
 type Props = {
   isModalOpen: boolean;
   closeModal: () => void;
   addArticle: () => void;
   updateArticle: () => void;
-  handleNameInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  handleImgInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleTitleInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleTagInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleAuthorInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleDateInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleImgUrlInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleContentInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
   article: ArticleModel;
 };
 
@@ -16,8 +20,12 @@ export default function Modal({
   isModalOpen,
   closeModal,
   article,
-  handleNameInputChange,
-  handleImgInputChange,
+  handleTitleInputChange,
+  handleTagInputChange,
+  handleAuthorInputChange,
+  handleDateInputChange,
+  handleImgUrlInputChange,
+  handleContentInputChange,
   addArticle,
   updateArticle,
 }: Props) {
@@ -30,14 +38,14 @@ export default function Modal({
           </span>
           <h1 className="title">Add/Edit article</h1>
           <div className="inputs__container">
-            <input id="inputTitle" type="text" name="title" className="input" placeholder="Please enter title" />
-            <input id="inputTag" type="text" name="tag" className="input" placeholder="Please enter tag" />
-            <input id="inputAuthor" type="text" name="author" className="input" placeholder="Please enter author" />
-            <input id="inputDate" type="text" name="date" className="input" placeholder="Please enter date" />
-            <input id="inputImgUrl" type="text" name="imgUrl" className="input input-imgUrl" placeholder="Please enter image url" />
+            <input type="text" name="title" className="input" placeholder="Please enter title" value={article.title} onChange={handleTitleInputChange} />
+            <input type="text" name="tag" className="input" placeholder="Please enter tag" value={article.tag} onChange={handleTagInputChange} />
+            <input type="text" name="author" className="input" placeholder="Please enter author" value={article.author} onChange={handleAuthorInputChange} />
+            <input type="text" name="date" className="input" placeholder="Please enter date" value={article.date} onChange={handleDateInputChange} />
+            <input type="text" name="imgUrl" className="input input-imgUrl" placeholder="Please enter image url" value={article.imgUrl} onChange={handleImgUrlInputChange} />
           </div>
-          <textarea id="inputContent" className="textarea" name="content"
-            placeholder="Please enter content"></textarea>
+          {/* <textarea className="textarea" name="content"
+            placeholder="Please enter content" value={article.content} onChange={handleContentInputChange}></textarea> */}
           <div className="modal__buttons">
             <button onClick={closeModal} id='cancel' type="button" className="btn">Cancel</button>
             {article.id === 0 && (

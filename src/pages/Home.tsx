@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
+import React, { ChangeEvent, Component } from 'react'
 import Article from '../components/Article';
+import Footer from '../components/Footer';
 import Modal from '../components/Modal';
 import "../index.css";
 
@@ -9,6 +10,9 @@ type State = {
   articles: ArticleModel[];
   isModalOpen: boolean;
   selectedArticle: ArticleModel;
+  startIndex: number;
+  endIndex: number;
+  articlesDisplayed: number;
 };
 
 export type ArticleModel = {
@@ -24,6 +28,7 @@ export type ArticleModel = {
 class Home extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
+    const noArticlesDisplayed = 3;
     this.state = {
       articles: [],
       isModalOpen: false,
@@ -36,17 +41,27 @@ class Home extends Component<Props, State> {
         imgUrl: "",
         content: "",
       },
+      articlesDisplayed: noArticlesDisplayed,
+      startIndex: 0,
+      endIndex: noArticlesDisplayed - 1,
     };
 
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
-    this.handleNameInputChange = this.handleNameInputChange.bind(this);
-    this.handleImgInputChange = this.handleImgInputChange.bind(this);
+    this.handleTitleInputChange = this.handleTitleInputChange.bind(this);
+    this.handleTagInputChange = this.handleTagInputChange.bind(this);
+    this.handleAuthorInputChange = this.handleAuthorInputChange.bind(this);
+    this.handleDateInputChange = this.handleDateInputChange.bind(this);
+    this.handleImgUrlInputChange = this.handleImgUrlInputChange.bind(this);
+    this.handleContentInputChange = this.handleContentInputChange.bind(this);
     this.addArticle = this.addArticle.bind(this);
     this.fetchArticles = this.fetchArticles.bind(this);
     this.editArticle = this.editArticle.bind(this);
     this.deleteArticle = this.deleteArticle.bind(this);
     this.updateArticle = this.updateArticle.bind(this);
+    this.goToPrev = this.goToPrev.bind(this);
+    this.goToNext = this.goToNext.bind(this);
+    this.updateDisplayIndex = this.updateDisplayIndex.bind(this);
   }
 
   async componentDidMount() {
@@ -56,7 +71,9 @@ class Home extends Component<Props, State> {
   async fetchArticles() {
     const res = await fetch(`http://localhost:3000/articles`);
     const json = await res.json();
-    this.setState({ articles: json });
+    this.setState({ articles: json }, () => {
+      this.updateDisplayIndex();
+    });
   }
 
   closeModal() {
@@ -78,19 +95,43 @@ class Home extends Component<Props, State> {
     this.setState({ isModalOpen: true });
   }
 
-  handleNameInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+  updateDisplayIndex() {
+    const { articles, startIndex, endIndex, articlesDisplayed } = this.state;
+  }
+
+  handleTitleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     const value = event.target.value;
     this.setState({ selectedArticle: { ...this.state.selectedArticle, title: value } });
   }
 
-  handleImgInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+  handleTagInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const value = event.target.value;
+    this.setState({ selectedArticle: { ...this.state.selectedArticle, tag: value } });
+  }
+
+  handleAuthorInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const value = event.target.value;
+    this.setState({ selectedArticle: { ...this.state.selectedArticle, author: value } });
+  }
+
+  handleDateInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const value = event.target.value;
+    this.setState({ selectedArticle: { ...this.state.selectedArticle, date: value } });
+  }
+
+  handleImgUrlInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     const value = event.target.value;
     this.setState({ selectedArticle: { ...this.state.selectedArticle, imgUrl: value } });
   }
 
+  handleContentInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const value = event.target.value;
+    this.setState({ selectedArticle: { ...this.state.selectedArticle, content: value } });
+  }
+
   async addArticle() {
-    const { title, imgUrl } = this.state.selectedArticle;
-    const body = { title, imgUrl };
+    const { title, tag, author, date, imgUrl, content } = this.state.selectedArticle;
+    const body = { title, tag, author, date, imgUrl, content };
     const response = await fetch(`http://localhost:3000/articles`, {
       method: "POST",
       headers: {
@@ -117,8 +158,8 @@ class Home extends Component<Props, State> {
   }
 
   async updateArticle() {
-    const { title, imgUrl, id } = this.state.selectedArticle;
-    const body = { title, imgUrl, id };
+    const { title, tag, author, date, imgUrl, content, id } = this.state.selectedArticle;
+    const body = { title, tag, author, date, imgUrl, content, id };
     const response = await fetch(`http://localhost:3000/articles/${id}`, {
       method: "PUT",
       headers: {
@@ -161,41 +202,70 @@ class Home extends Component<Props, State> {
     this.setState({ selectedArticle: article, isModalOpen: true });
   }
 
-  render() {
-    const { isModalOpen, articles, selectedArticle } = this.state;
+  goToPrev() {
+    const { startIndex, endIndex, articlesDisplayed } = this.state;
 
-    const articleList = articles.map((article: ArticleModel) => (
-      <Article
-        key={article.id}
-        title={article.title}
-        author={article.author}
-        content={article.content}
-        date={article.date}
-        tag={article.tag}
-        imgUrl={article.imgUrl}
-        id={article.id}
-        editArticle={this.editArticle}
-        deleteArticle={this.deleteArticle} />
-    ));
+    this.setState({
+      startIndex: startIndex - articlesDisplayed,
+      endIndex: endIndex - articlesDisplayed,
+    });
+  }
+
+  goToNext() {
+    const { startIndex, endIndex, articlesDisplayed } = this.state;
+    this.setState({
+      startIndex: startIndex + articlesDisplayed,
+      endIndex: endIndex + articlesDisplayed,
+    });
+  }
+
+
+
+  render() {
+    const { isModalOpen, articles, selectedArticle, startIndex, endIndex } = this.state;
+
+    const articleList = articles
+      .filter((article, index) => index >= startIndex && index <= endIndex)
+      .map((article: ArticleModel) => (
+        <Article
+          key={article.id}
+          title={article.title}
+          author={article.author}
+          date={article.date}
+          tag={article.tag}
+          imgUrl={article.imgUrl}
+          content={article.content}
+          id={article.id}
+          editArticle={this.editArticle}
+          deleteArticle={this.deleteArticle} />
+      ));
 
     return (
       <div>
-      <div className='add'>
-        <button className="btn" onClick={this.openModal}>Add article</button>
+        <div className='add'>
+          <button className="btn" onClick={this.openModal}>Add article</button>
         </div>
         <div className='article-container'>
-        {articleList}
+          {articleList}
+        </div>
+        <footer className="footer">
+          <button onClick={this.goToPrev} disabled={startIndex <= 0} className="footer_link">previous</button>
+          <button onClick={this.goToNext} disabled={endIndex >= articles.length - 1} className="footer_link">next</button>
+        </footer>
         <Modal
           isModalOpen={isModalOpen}
           closeModal={this.closeModal}
           article={selectedArticle}
-          handleNameInputChange={this.handleNameInputChange}
-          handleImgInputChange={this.handleImgInputChange}
+          handleTitleInputChange={this.handleTitleInputChange}
+          handleTagInputChange={this.handleTagInputChange}
+          handleAuthorInputChange={this.handleAuthorInputChange}
+          handleDateInputChange={this.handleDateInputChange}
+          handleImgUrlInputChange={this.handleImgUrlInputChange}
+          handleContentInputChange={this.handleContentInputChange}
           addArticle={this.addArticle}
           updateArticle={this.updateArticle}
-        />
-        </div>
-        </div>
+/>
+      </div>
 
     );
   }

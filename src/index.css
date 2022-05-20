@@ -176,6 +176,9 @@ a {
 }
 
 .footer_link {
+  cursor: pointer;
+  background: none;
+  border: none;
   color: #1e1e1e;
   font-family: 'Montserrat', sans-serif;
   font-size: 34px;
