@@ -13,12 +13,13 @@ type Props = {
   date: string;
   imgUrl: string;
   content: string;
+  saying: string;
   editArticle: (article: ArticleModel) => void;
   deleteArticle: (id: number) => void;
 }
 
 export default function Article({
-  id, title, tag, author, date, imgUrl, content, editArticle, deleteArticle
+  id, title, tag, author, date, imgUrl, content, saying, editArticle, deleteArticle
 }: Props) {
   return (
     <article className="article-container">
@@ -32,12 +33,13 @@ export default function Article({
         <li className="info_item">{date}</li>
       </ul>
       <div className="action_buttons">
-        <button onClick={() => editArticle({ id, title, tag, author, date, imgUrl, content })} type="button" className="action_btn">EDIT</button>
+        <button onClick={() => editArticle({ id, title, tag, author, date, imgUrl, content, saying})} type="button" className="action_btn">EDIT</button>
         <button onClick={() => deleteArticle(id)} type="button" className="action_btn">DELETE</button>
       </div>
       <img src={imgUrl} alt={title} />
       <div className="content">
         <p className="article-container">{content} <Link to={`/details/${id}`}>See more...</Link></p>
+        <p className="saying">{saying}</p>
       </div>
     </article>
   )

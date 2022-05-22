@@ -23,6 +23,7 @@ export type ArticleModel = {
   date: string;
   imgUrl: string;
   content: string;
+  saying: string;
 };
 
 class Home extends Component<Props, State> {
@@ -40,6 +41,7 @@ class Home extends Component<Props, State> {
         date: "",
         imgUrl: "",
         content: "",
+        saying: "",
       },
       articlesDisplayed: noArticlesDisplayed,
       startIndex: 0,
@@ -87,6 +89,7 @@ class Home extends Component<Props, State> {
         date: "",
         imgUrl: "",
         content: "",
+        saying: "",
       },
     });
   }
@@ -151,6 +154,7 @@ class Home extends Component<Props, State> {
         date: "",
         imgUrl: "",
         content: "",
+        saying: "",
       },
     });
 
@@ -180,6 +184,7 @@ class Home extends Component<Props, State> {
         date: "",
         imgUrl: "",
         content: "",
+        saying: "",
       },
     });
 
@@ -219,8 +224,6 @@ class Home extends Component<Props, State> {
     });
   }
 
-
-
   render() {
     const { isModalOpen, articles, selectedArticle, startIndex, endIndex } = this.state;
 
@@ -235,6 +238,7 @@ class Home extends Component<Props, State> {
           tag={article.tag}
           imgUrl={article.imgUrl}
           content={article.content}
+          saying={article.saying}
           id={article.id}
           editArticle={this.editArticle}
           deleteArticle={this.deleteArticle} />
