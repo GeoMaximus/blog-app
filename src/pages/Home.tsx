@@ -264,7 +264,7 @@ class Home extends Component<Props, State> {
           handleContentInputChange={this.handleContentInputChange}
           addArticle={this.addArticle}
           updateArticle={this.updateArticle}
-/>
+        />
       </div>
 
     );

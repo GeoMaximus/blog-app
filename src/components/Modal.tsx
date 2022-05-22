@@ -30,8 +30,7 @@ export default function Modal({
   updateArticle,
 }: Props) {
   return (
-    <div id="modal_overlay" className={isModalOpen ? "show-modal" : "show-modal modal_overlay"}>
-      <div className="modal" id="modal">
+    <div id="myModal" className={isModalOpen ? "modal is-modal-open" : "modal"}>
         <div className="modal-content">
           <span id="close" className="close" onClick={closeModal}>
             &times;
@@ -45,7 +44,8 @@ export default function Modal({
             <input type="text" name="imgUrl" className="input input-imgUrl" placeholder="Please enter image url" value={article.imgUrl} onChange={handleImgUrlInputChange} />
           </div>
           {/* <textarea className="textarea" name="content"
-            placeholder="Please enter content" value={article.content} onChange={handleContentInputChange}></textarea> */}
+            placeholder="Please enter content" value={article.content} onChange={handleContentInputChange}>
+            </textarea> */}
           <div className="modal__buttons">
             <button onClick={closeModal} id='cancel' type="button" className="btn">Cancel</button>
             {article.id === 0 && (
@@ -55,6 +55,5 @@ export default function Modal({
           </div>
         </div>
       </div>
-    </div>
   );
 }
