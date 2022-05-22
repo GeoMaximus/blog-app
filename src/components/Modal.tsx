@@ -12,7 +12,7 @@ type Props = {
   handleAuthorInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
   handleDateInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
   handleImgUrlInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  handleContentInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleContentInputChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   article: ArticleModel;
 };
 
@@ -43,9 +43,10 @@ export default function Modal({
             <input type="text" name="date" className="input" placeholder="Please enter date" value={article.date} onChange={handleDateInputChange} />
             <input type="text" name="imgUrl" className="input input-imgUrl" placeholder="Please enter image url" value={article.imgUrl} onChange={handleImgUrlInputChange} />
           </div>
-          {/* <textarea className="textarea" name="content"
-            placeholder="Please enter content" value={article.content} onChange={handleContentInputChange}>
-            </textarea> */}
+          <textarea className="textarea" name="content"
+            placeholder="Please enter content" cols={28}
+            rows={14} value={article.content} onChange={handleContentInputChange}>
+            </textarea>
           <div className="modal__buttons">
             <button onClick={closeModal} id='cancel' type="button" className="btn">Cancel</button>
             {article.id === 0 && (

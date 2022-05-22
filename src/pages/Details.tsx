@@ -4,6 +4,9 @@ import { ArticleModel } from "./Home";
 import "../index.css";
 
 export default function Details() {
+  const [prevArticleId, setPrevArticleId] = useState<number | undefined>(0);
+  const [nextArticleId, setNextArticleId] = useState<number | undefined>(0);
+
   let { articleId } = useParams();
 
   const [article, setArticle] = useState<ArticleModel | null>(null);
@@ -22,9 +25,6 @@ export default function Details() {
   console.log(articleId);
   return (
     <div>
-      <div className='add'>
-          <button className="btn" >Add article</button>
-        </div>
       {
         article !== null && (
           <article className="article-container">
@@ -37,10 +37,6 @@ export default function Details() {
               </li>
               <li className="info_item">{article.date}</li>
             </ul>
-            <div className="action_buttons">
-        <button type="button" className="action_btn">EDIT</button>
-        <button type="button" className="action_btn">DELETE</button>
-      </div>
             <img className="img" src={article.imgUrl} alt={article.title} />
             <div className="content">
               <p className="article-container">{article.content}</p>
@@ -49,8 +45,8 @@ export default function Details() {
         )
       }
       <footer className="footer">
-          {/* <button onClick={this.goToPrev} disabled={startIndex <= 0} className="footer_link">previous</button> */}
-          {/* <button onClick={this.goToNext} disabled={endIndex >= articles.length - 1} className="footer_link">next</button> */}
+          <button className="footer_link">previous article</button>
+          <button className="footer_link">next article</button>
         </footer>
     </div>
   )

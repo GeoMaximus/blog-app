@@ -124,7 +124,7 @@ class Home extends Component<Props, State> {
     this.setState({ selectedArticle: { ...this.state.selectedArticle, imgUrl: value } });
   }
 
-  handleContentInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+  handleContentInputChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     const value = event.target.value;
     this.setState({ selectedArticle: { ...this.state.selectedArticle, content: value } });
   }
